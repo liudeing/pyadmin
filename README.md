@@ -1,28 +1,50 @@
 ## 配置python多环境
 pyenv 可在不同 python 版本之间轻松切换，实现 python 环境隔离，且支持自动激活和退出虚拟环境
-1. 安装和设置 pyenv
+STEP1. 安装和设置 pyenv
 ```shell
 $ brew install pyenv 
 $ brew install pyenv-virtualenv
 ```
-2. 根据自身环境，将下方内容加到对应文件中： .bashrc / .zshrc
+STEP2. 根据自身环境，将下方内容加到对应文件中： .bashrc 或者 .zshrc
 ```shell
-export PYENV_ROOT=/usr/local/var/pyenv
+# pyenv
+export PYENV_ROOT="/opt/homebrew/opt/pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 export PATH="$PYENV_ROOT/shims:$PATH"
-if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
 
-eval "$(pyenv virtualenv-init -)"
+if which pyenv > /dev/null;
+  then eval "$(pyenv init -)";
+fi
+
+# pyenv-virtualenv
+if which pyenv virtualenv > /dev/null;
+  then eval "$(pyenv virtualenv-init -)";
+fi
 ```
-3. 验证是否安装成功 
+命令刷新`source ~/.zshrc`
+
+STEP3. 验证是否安装成功 
 ```
 pyenv
 ```
-4. python指定任意的runtime
+STEP4. python指定任意的runtime
 ```
 ~/.pyenv/versions/3.12.1/bin/python -m venv .venv
 ```
-5. 使用
+STEP5. 使用
+
+使用如下语句创建虚拟环境
+
+`pyenv virtualenv 版本号 环境名`
+
+注意：版本号需要以之前pyenv里安装的Python版本号相同。
+
+使用如下命令激活虚拟环境：
+
+`pyenv activate 环境名`
+
+使用 `pyenv deactivate` 退出环境。
+使用 `rm -rf ~/.pyenv/versions/环境名` 删除环境。
 
 | 基本使用命令           | 描述                                          |
 |:-----------------|:--------------------------------------------|
@@ -42,6 +64,9 @@ pyenv
 | pyenv global | 版本号更改本机版本，重启不会造成再次更改                                                     |
 | pyenv local  | 版本号会在当前目录创建 .python-version 文件，并记录设置的 python 环境，每次进入该目录会自动设置成该 python 环境 |
 | pyenv shell  | 版本号更改当前 shell 下使用的 python 版本，临时生效，优先级高于 global                           |
+
+STEP6. 卸载
+卸载pyenv时，只需要删除 ~/.pyenv 目录、删除 ~/.bashrc 文件中的上文加入的部分即可。
 
 ## 设置django工程
 1. 安装django源码
